@@ -217,6 +217,7 @@ void AVL<T>::balanceTree(Node<T>* newNode)
       //figure out if P(the root of the subtree that needs to be fixed) comes from left or
       //right of its parent or root.
 
+      Node<T>* tempFixed;
       if (violatingNode->bf == 2) // left heavy
       {
         root = rightRotation(violatingNode);
@@ -224,7 +225,8 @@ void AVL<T>::balanceTree(Node<T>* newNode)
       else  // right heavy
       {
         // check leftbf and rightbf for 1 or -1
-        root = leftRotation(violatingNode);
+        //root = leftRotation(violatingNode); ERROR
+        tempFixed = leftRotation(violatingNode);
       }
 
     }
@@ -300,9 +302,18 @@ Node<T>* AVL<T>::leftRotation(Node<T>* p)
   //Check the YouTube video on AVL you watched. He gives you a simplified algorithm for
   //this. I have 10 lines of code in this function.
   Node<T>* S = p->right;
-  Node<T>* B = S->right;
   S->left = p;
-  p->right = B;
+  S->up = p->up;
+  p->up = S;
+  p->right = NULL;
+
+  S->up->right = S;
+
+  //update BF
+  S->bf = getMaxLength(S->left) - getMaxLength(S->right);
+  p->bf = getMaxLength(p->left) - getMaxLength(p->right);
+
+  //p->right = B;
   return S;
 }
 

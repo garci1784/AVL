@@ -29,7 +29,6 @@ int main()
   cout << "\nAdding 1: testing LL rotating around root. node that will become new root has 2 children ------" << endl;
   t.insertNodeI(1);
   t.BFTprint();
-  /*
 
   cout << "\nAdding 8 ------" << endl;
   t.insertNodeI(8);
@@ -47,7 +46,8 @@ int main()
   t2.insertNodeI(7);
   t2.BFTprint();
 
-  cout << "\nAdding 6: RL The violation is not at root --------" << endl; 
+  /*
+  cout << "\nAdding 6: RL The violation is not at root --------" << endl;
   t2.insertNodeI(6);
   t2.BFTprint();
 
