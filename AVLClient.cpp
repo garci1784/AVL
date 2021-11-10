@@ -30,11 +30,11 @@ int main()
   t.insertNodeI(1);
   t.BFTprint();
 
-  /*
   cout << "\nAdding 8 ------" << endl;
   t.insertNodeI(8);
   t.BFTprint();
 
+  /*
   cout << "\nAdding 10: testing RR rotating around non-root. node that will become new root has 1 child ------" << endl;
   t.insertNodeI(10);
   t.BFTprint();
