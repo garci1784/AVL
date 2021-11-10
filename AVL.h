@@ -226,7 +226,15 @@ void AVL<T>::balanceTree(Node<T>* newNode)
       {
         // check leftbf and rightbf for 1 or -1
         //root = leftRotation(violatingNode); ERROR
-        tempFixed = leftRotation(violatingNode);
+        //tempFixed = leftRotation(violatingNode);
+        if (violatingNode->right->bf == 1)
+        {
+          tempFixed = (rightRotation(violatingNode->right));
+          tempFixed->up = violatingNode; // not needed
+          violatingNode->right = tempFixed; // not needed
+          //violatingNode = leftRotation(violatingNode);
+          tempFixed = leftRotation(violatingNode);
+        }
       }
 
     }
@@ -277,7 +285,9 @@ template <class T>
 Node<T>* AVL<T>::rightRotation(Node<T>* p)
 {
   Node<T>* S = p->left; // head to be
-  S->up = NULL;
+  //S->up = NULL;
+  S->up = p->up;
+  S->up->right = S;
 
   Node<T>* B = S->right;
 
@@ -286,7 +296,8 @@ Node<T>* AVL<T>::rightRotation(Node<T>* p)
   p->up = S;
 
   p->left = B;
-  B->up = p;
+  if (B != NULL)
+    B->up = p;
 
   p->bf = getMaxLength(p->left) - getMaxLength(p->right);
   S->bf = getMaxLength(S->left) - getMaxLength(S->right);
@@ -307,7 +318,8 @@ Node<T>* AVL<T>::leftRotation(Node<T>* p)
   p->up = S;
   p->right = NULL;
 
-  S->up->right = S;
+  //S->up->right = S;
+  S->up->left = S;
 
   //update BF
   S->bf = getMaxLength(S->left) - getMaxLength(S->right);
