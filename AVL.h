@@ -55,6 +55,7 @@ private:
   Node<T>* leftRotation(Node<T>* P);
   void balanceTree(Node<T>* newNode);
   Node<T>* updatebf(Node<T>* Q);
+  int getMaxLength(Node<T> *p);
 
  public:
   AVL() {root = NULL;} //implement constructor here
@@ -62,6 +63,8 @@ private:
   void insertNodeI(const T& e);
   void inOrderPrint();
   void BFTprint();
+  int getMaxLength();
+
 };
 
 //implement the member functions in the header if you are making a template class
@@ -208,23 +211,20 @@ void AVL<T>::balanceTree(Node<T>* newNode)
     //diagrams. For each type, call rotateRight(), rotateLeft() or both.
     //if(P->bf == 2 && P->left != NULL && P->left->bf == 1) à Which type of violation?
     //Don’t forget to attach the fixed subtree to the parent or root
-    if (updatebf(newNode) != NULL)
+  Node<T>* violatingNode = updatebf(newNode);
+  if (violatingNode != NULL)
     {
       //figure out if P(the root of the subtree that needs to be fixed) comes from left or
       //right of its parent or root.
-      Node<T>* violatingNode = updatebf(newNode);
 
-      if (violatingNode->bf = 2) // left heavy // must do 2 rotations
+      if (violatingNode->bf == 2) // left heavy
       {
-        // check leftbf and rightbf for 1 or -1
-        // while (leftbf != 0 and rightbf != 0)
-        //  rotate
-        ;
+        root = rightRotation(violatingNode);
       }
-      else  // right heavy // must do 2 rotations
+      else  // right heavy
       {
         // check leftbf and rightbf for 1 or -1
-        ;
+        root = leftRotation(violatingNode);
       }
 
     }
@@ -244,6 +244,7 @@ Node<T>* AVL<T>::updatebf(Node<T>* Q)
     P->bf++;
   else
     P->bf--;
+  /** GOOD UP TO HERE (debugger) **/
 
   while (P != root && (P->bf > -2 && P->bf < 2) )
   {
@@ -273,6 +274,22 @@ Node<T>* AVL<T>::updatebf(Node<T>* Q)
 template <class T>
 Node<T>* AVL<T>::rightRotation(Node<T>* p)
 {
+  Node<T>* S = p->left; // head to be
+  S->up = NULL;
+
+  Node<T>* B = S->right;
+
+  S->right = p;
+
+  p->up = S;
+
+  p->left = B;
+  B->up = p;
+
+  p->bf = getMaxLength(p->left) - getMaxLength(p->right);
+  S->bf = getMaxLength(S->left) - getMaxLength(S->right);
+
+  return S;
 }
 
 template <class T>
@@ -281,7 +298,30 @@ Node<T>* AVL<T>::leftRotation(Node<T>* p)
   //Don't forget to change up and bf as well appropriate pointers.
   //This function returns the new root.
   //Check the YouTube video on AVL you watched. He gives you a simplified algorithm for
-  //this. I have 10 lines of code in this function. 
+  //this. I have 10 lines of code in this function.
+  Node<T>* S = p->right;
+  Node<T>* B = S->right;
+  S->left = p;
+  p->right = B;
+  return S;
+}
+
+//This function return the maximum length from the root. If there is only one node, this function returns 1.
+template <class T>
+int AVL<T>::getMaxLength()
+{
+  return getMaxLength(root);
+}
+
+template <class T>
+int AVL<T>::getMaxLength(Node<T>* p) //private function. Why?
+{
+  if (p == NULL)
+    return 0;
+  else
+  {
+    return max(getMaxLength(p->left), getMaxLength(p->right)) + 1;
+  }
 }
 
 #endif
