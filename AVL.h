@@ -228,16 +228,20 @@ void AVL<T>::balanceTree(Node<T>* newNode)
       }
       else  // right heavy
       {
-        // check leftbf and rightbf for 1 or -1
-        //root = leftRotation(violatingNode); ERROR
-        //tempFixed = leftRotation(violatingNode);
-        if (violatingNode->right->bf == 1)
+        if (violatingNode->right->bf == 1) // RL:wq
         {
-          tempFixed = (rightRotation(violatingNode->right));
-          tempFixed->up = violatingNode; // not needed
-          violatingNode->right = tempFixed; // not needed
+          tempFixed = rightRotation(violatingNode->right);
           //violatingNode = leftRotation(violatingNode);
           tempFixed = leftRotation(violatingNode);
+          //tempFixed->up->left = tempFixed;
+
+          int test = -1;
+          return;
+        }
+
+        if (violatingNode->right->bf == -1) // RR
+        {
+          tempFixed = (leftRotation(violatingNode));
         }
       }
 
@@ -291,6 +295,7 @@ Node<T>* AVL<T>::rightRotation(Node<T>* p)
   Node<T>* S = p->left; // head to be
   //S->up = NULL;
   S->up = p->up;
+  //S->up->right = S;
 
   Node<T>* B = S->right;
 
@@ -301,6 +306,9 @@ Node<T>* AVL<T>::rightRotation(Node<T>* p)
   p->left = B;
   if (B != NULL)
     B->up = p;
+
+  if (S->up != NULL)
+    S->up->right = S;
 
   p->bf = getMaxLength(p->left) - getMaxLength(p->right);
   S->bf = getMaxLength(S->left) - getMaxLength(S->right);
@@ -321,7 +329,10 @@ Node<T>* AVL<T>::leftRotation(Node<T>* p)
   p->up = S;
   p->right = NULL;
 
-  //S->up->right = S;
+
+  if (S->up != root)
+    S->up->right = S; // not needed for RL
+  //S->up->right = S; // not needed for RL
   S->up->left = S;
 
   //update BF

@@ -34,13 +34,10 @@ int main()
   t.insertNodeI(8);
   t.BFTprint();
 
-  /*
   cout << "\nAdding 10: testing RR rotating around non-root. node that will become new root has 1 child ------" << endl;
   t.insertNodeI(10);
   t.BFTprint();
-   */
 
-  /*
   cout << "\n\nConstructing a new tree with 8, 5, 10 and 7 ------" << endl;
   AVL<int> t2;
   t2.insertNodeI(8);
@@ -52,7 +49,6 @@ int main()
   cout << "\nAdding 6: RL The violation is not at root --------" << endl;
   t2.insertNodeI(6);
   t2.BFTprint();
-  */
   /*
 
   cout << "\n\nConstructing a new tree with 8 and 4 ------" << endl;
