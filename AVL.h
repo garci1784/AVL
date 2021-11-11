@@ -221,8 +221,16 @@ void AVL<T>::balanceTree(Node<T>* newNode)
       if (violatingNode->bf == 2) // left heavy
       {
         //root = rightRotation(violatingNode);
-        if (violatingNode->right->bf == 0) // at root with one right child
+        if (violatingNode->right != NULL && violatingNode->right->bf == 0) // at root with one right child
         {
+          root = rightRotation(violatingNode);
+          return;
+        }
+
+        if (violatingNode->left->bf == -1)
+        {
+          tempFixed = leftRotation(violatingNode->left);
+          //tempFixed = rightRotation(violatingNode);
           root = rightRotation(violatingNode);
         }
       }

@@ -49,7 +49,6 @@ int main()
   cout << "\nAdding 6: RL The violation is not at root --------" << endl;
   t2.insertNodeI(6);
   t2.BFTprint();
-  /*
 
   cout << "\n\nConstructing a new tree with 8 and 4 ------" << endl;
   AVL<int> t3;
@@ -60,7 +59,6 @@ int main()
   cout << "\nAdding 7: LR. The violation is at root  --------" << endl; 
   t3.insertNodeI(7);
   t3.BFTprint();
-  */
 
   cout << endl;
   return 0;
